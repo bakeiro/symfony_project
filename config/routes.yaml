@@ -1,3 +1,46 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+index:
+  path: /
+  controller: App\Controller\PokemonController::index
+
+# Pages
+pokemon_index:
+  path: pokemon_test
+  controller: App\Controller\PokemonController::index
+
+session_index:
+  path: session_test
+  controller: App\Controller\SessionController::index
+
+crud_index:
+  path: crud_test
+  controller: App\Controller\CrudController::index
+
+# Functions
+pokemon_endpoint:
+  path: pokemon_api/{name}
+  controller: App\Controller\PokemonController::pokemonEndpoint
+
+session_check_login:
+  path: session_login
+  controller: App\Controller\SessionController::checkLogin
+
+session_logout:
+  path: session_logout
+  controller: App\Controller\SessionController::logOut
+
+user_delete:
+  path: crud_delete/{user_id}
+  controller: App\Controller\CrudController::deleteUser
+
+insert_user:
+  path: insert_user
+  controller: App\Controller\CrudController::insertUser
+
+update_user:
+  path: update_user/
+  controller: App\Controller\CrudController::updateUser
+
+get_user:
+  path: get_user/{user_id}
+  controller: App\Controller\CrudController::getUserInfo
+
