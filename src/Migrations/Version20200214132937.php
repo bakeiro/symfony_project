@@ -4,28 +4,32 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
+use App\Entity\User;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use App\Entity\User;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
 final class Version20200214132937 extends AbstractMigration implements ContainerAwareInterface
-{
-    public function getDescription() : string
-    {
-        return '';
-    }
+{    
+    use ContainerAwareTrait;
 
-    /**
-     * @var ContainerInterface
-     */
+    /*
     private $container;
-
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
+    }
+    */
+
+    
+    public function getDescription() : string
+    {
+        return '';
     }
 
     /**
@@ -35,7 +39,13 @@ final class Version20200214132937 extends AbstractMigration implements Container
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, last_name VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, age INT NOT NULL, UNIQUE INDEX UNIQ_8D93D649E7927C74 (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        
+    }
+
+    /**
+     * Creates users and inserts them into the db
+     */
+    public function postUp(Schema $schema) : void
+    {
         $admin_master = new User();
         $admin_master->setLastName("master");
         $admin_master->setName("admin");
@@ -58,7 +68,7 @@ final class Version20200214132937 extends AbstractMigration implements Container
         $manager->flush();
         
         $manager->persist($normal_user);
-        $manager->flush($normal_user);
+        $manager->flush();
     }
 
     public function down(Schema $schema) : void
