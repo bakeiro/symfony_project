@@ -1,0 +1,134 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Users{% endblock %}
+
+{% block body %}
+
+{% if app.request.hasPreviousSession %}
+    {% for message in app.flashes('feedback_message') %}
+        <div class="ui segment">
+            <div class="ui top attached label yellow">Message</div>
+            <p>{{ message }}</p>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="ui container">
+    <h1>Users:</h1>
+    {% for user in users %}
+    <div id="{{ user.Id }}" class="">
+        <p>
+            Name: {{ user.Name }}<br>
+            Lastname: {{ user.LastName }}<br>
+            Age: {{ user.Age }}<br>
+            Email: {{ user.Email }}<br>
+
+        </p>
+        <button class="ui default button mini edit_button">edit</button>
+        <button class="ui red button mini delete_button">delete</button>
+    </div>
+    <hr>
+    {% endfor %}
+
+    <br>
+    {{test_service_message}}
+    <button id="show_modal_create_user" class="ui black button mini">create</button>
+</div>
+
+<!-- modal for deleting -->
+<div id="modal_deleting_users" class="ui modal">
+    <div class="header">Warning</div>
+    <div class="content">
+        <p>You want to delete the selected user??</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">Cancel</div>
+        <a href="" id="id_user_delete" class="ui approve red button">Delete</a>
+    </div>
+</div>
+
+<!-- modal for create -->
+<div id="modal_create_user" class="ui modal">
+    <div class="header">Create new user</div>
+    <div class="content">
+        {{ form_start(create_user_form, {'action': path('insert_user')}) }}
+        {{ form(create_user_form) }}
+    </div>
+</div>
+
+
+<!-- modal for edit -->
+<div id="modal_update_user" class="ui modal">
+    <div class="header">Create new user</div>
+    <div class="content">
+        {{ form_start(edit_user_form, {'action': path('update_user')}) }}
+        {{ form(edit_user_form) }}
+    </div>
+</div>
+
+<script>
+    window.document.addEventListener("DOMContentLoaded", (event) => {
+
+        // Delete modal
+        let buttons_delete = document.querySelectorAll("button.delete_button");
+        buttons_delete.forEach((value, index) => {
+            value.addEventListener("click", (event) => {
+                let user_id = event.srcElement.parentElement.id;
+                window.document.getElementById("id_user_delete").href = `/crud_delete/${user_id}`;
+                $("div#modal_deleting_users").modal("show");
+            });
+        });
+
+        // Create modal
+        let button_show_create_user_modal = window.document.getElementById("show_modal_create_user");
+        button_show_create_user_modal.addEventListener("click", (event) => {
+            $("div#modal_create_user").modal("show");
+        });
+
+        // Edit modal
+        let buttons_edit = document.querySelectorAll("button.edit_button");
+        buttons_edit.forEach((value, index) => {
+            value.addEventListener("click", (event) => {
+
+                let user_id = event.srcElement.parentElement.id;
+
+                $.ajax({
+                    url: `get_user/${user_id}`,
+                    method: "POST",
+                    data: user_id,
+                    success: (response) => {
+                        
+                        window.document.getElementById("user_edit_form_id").value = user_id;
+                        window.document.getElementById("user_edit_form_id").defaultValue = user_id;
+                        
+                        window.document.getElementById("user_edit_form_email").value = response.email;
+                        window.document.getElementById("user_edit_form_email").defaultValue = response.email;
+
+                        window.document.getElementById("user_edit_form_name").value = response.name;
+                        window.document.getElementById("user_edit_form_name").defaultValue = response.name;
+
+                        window.document.getElementById("user_edit_form_last_name").value = response.lastName;
+                        window.document.getElementById("user_edit_form_last_name").defaultValue = response.lastName;
+
+                        window.document.getElementById("user_edit_form_password").value = response.password;
+                        window.document.getElementById("user_edit_form_password").defaultValue = response.password;
+
+                        window.document.getElementById("user_edit_form_age").value = response.age;
+                        window.document.getElementById("user_edit_form_age").defaultValue = response.age;
+                        
+                        $("div#modal_update_user").modal("show");
+                    },
+                    complete: (response) => {
+                        console.log("finished");
+                    },
+                    error: (response) => {
+                        alert(`Error during query ${response.errorMessage}`);
+                    }
+                });
+            });
+        });        
+
+    });
+</script>
+
+{% endblock %}
