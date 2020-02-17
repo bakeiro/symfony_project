@@ -47,8 +47,8 @@
 
 {% block checkbox_widget -%}
     <div class="ui toggle checkbox">
-        {% set attr = attr|merge({class: (attr.class|default('') ~ ' hidden')|trim}) %}
-        {{- form_label(form, null, { widget: parent() }) -}}
+        {{ parent() }}
+        <label>{{ form.vars.label }}</label>
     </div>
 {%- endblock checkbox_widget %}
 
@@ -93,8 +93,9 @@
                 {% set label = name|humanize %}
             {%- endif -%}
         {% endif %}
+        {{- widget|raw }}
         <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
-        {{- widget|raw }} {{ label is not same as(false) ? (translation_domain is same as(false) ? label : label|trans({}, translation_domain)) -}}
+         {{ label is not same as(false) ? (translation_domain is same as(false) ? label : label|trans({}, translation_domain)) -}}
         </label>
     {% endif %}
 {% endblock checkbox_radio_label %}
