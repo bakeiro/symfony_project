@@ -46,11 +46,14 @@ final class Version20200214132937 extends AbstractMigration implements Container
      */
     public function postUp(Schema $schema) : void
     {
+        $encoder = $this->container->get('security.password_encoder');
+        
         $admin_master = new User();
         $admin_master->setLastName("master");
         $admin_master->setName("admin");
         $admin_master->setAge(37);
-        $admin_master->setPassword("thisIsAPassword");
+        $password = $encoder->encodePassword($admin_master, "thisIsAPassword");
+        $admin_master->setPassword($password);        
         $admin_master->setEmail("adminmaster@email.com");
         $admin_master->setRoles(array("ROLE_ADMINMASTER", "ROLE_USER"));
         
@@ -58,7 +61,8 @@ final class Version20200214132937 extends AbstractMigration implements Container
         $normal_user->setLastName("user");
         $normal_user->setName("normal");
         $normal_user->setAge(25);
-        $normal_user->setPassword("thisIsAPassword2");
+        $password2 = $encoder->encodePassword($normal_user, "thisIsAPassword2");
+        $normal_user->setPassword($password2);
         $normal_user->setEmail("normaluser@email.com");
         $normal_user->setRoles(array("ROLE_USER"));
     
