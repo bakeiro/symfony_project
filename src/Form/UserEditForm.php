@@ -17,13 +17,16 @@ class UserEditForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add("id", HiddenType::class, ['mapped' => false]);
+        $builder->add("id", HiddenType::class, ["mapped" => false]);
         $builder->add("email", TextType::class);
         $builder->add("password", PasswordType::class);
         $builder->add("roles", ChoiceType::class, [
-        "choices" => ['ROLE_ADMINMASTER','ROLE_USER'],
-        'multiple' => true,
-        'expanded' => true
+        "choices" => [
+            "Admin" => "ROLE_ADMINMASTER",
+            "User" => "ROLE_USER"
+        ],
+        "multiple" => true,
+        "expanded" => true
         ]);
         $builder->add("name", TextType::class);
         $builder->add("last_name", TextType::class);
@@ -34,7 +37,7 @@ class UserEditForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            "data_class" => User::class,
         ]);
     }
 }

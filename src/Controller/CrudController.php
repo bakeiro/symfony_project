@@ -81,6 +81,7 @@ class CrudController extends AbstractController
             $original_user->setName($updated_user_info->getName());
             $original_user->setLastName($updated_user_info->getLastName());
             $original_user->setAge($updated_user_info->getAge());
+            $original_user->setRoles($updated_user_info->getRoles());
             $original_user->setPassword($updated_user_info->getPassword());
             $original_user->setEmail($updated_user_info->getEmail());
 
