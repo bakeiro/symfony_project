@@ -6,6 +6,6 @@ class TestService
 {
     public function test()
     {
-        return "Hi this is a test ;)";
+        return "This message comes from a service";
     }
 }

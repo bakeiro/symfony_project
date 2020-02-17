@@ -62,7 +62,6 @@ final class Version20200214132937 extends AbstractMigration implements Container
         $normal_user->setEmail("normaluser@email.com");
         $normal_user->setRoles(array("ROLE_USER"));
     
-        // Add users in up process
         $manager = $this->container->get('doctrine.orm.entity_manager');
         $manager->persist($admin_master);
         $manager->flush();
