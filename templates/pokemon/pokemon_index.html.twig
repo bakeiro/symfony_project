@@ -6,40 +6,31 @@
 
     <br><br>
 
-    {% if is_granted('ROLE_USER') %}
+    <div class="ui segment container">
+        <div class="ui form">
+            <h4>Pokemon searcher</h4>
+            <p>Here you can look in the pokemon API for your favorite pokemon!</p>
 
-        <div class="ui segment container">
-            <div class="ui form">
-                <h4>Pokemon searcher</h4>
-                <p>Here you can look in the pokemon API for your favorite pokemon!</p>
-
-                <div class="two fields">
-                    <div class="field">
-                        <input type="text" id="pokemon_name" />
-                    </div>
-                    <div class="field">
-                        <button id="search_pokemon_button" class="ui secondary button">Search!</button>
-                    </div>
+            <div class="two fields">
+                <div class="field">
+                    <input type="text" id="pokemon_name" />
                 </div>
-                <br><br>
+                <div class="field">
+                    <button id="search_pokemon_button" class="ui secondary button">Search!</button>
+                </div>
             </div>
-
-            <!-- Results -->
-            <div id="pokemon_info" class="ui container">
-                <h1>{{pokemon.name}}</h1>
-                <p>
-                    {{pokemon.description}}
-                </p>
-            </div>
+            <br><br>
         </div>
 
-        <script src="{{ asset('js/pokemon_script.js') }}"></script>
-
-    {% else %}
-        <div class="ui segment container">
-            <h4> You need to be logged in order to use the API </h4>
+        <!-- Results -->
+        <div id="pokemon_info" class="ui container">
+            <h1>{{pokemon.name}}</h1>
+            <p>
+                {{pokemon.description}}
+            </p>
         </div>
-    {% endif %}
+    </div>
 
+    <script src="{{ asset('js/pokemon_script.js') }}"></script>
 
 {% endblock %}

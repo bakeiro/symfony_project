@@ -5,26 +5,53 @@
 {% block body %}
 
 <div class="ui container">
-    <form class="ui form" method="post">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
     
-        {% if app.user %}
-            <div class="mb-3">
-                You are logged in as {{ app.user.email }}, <a href="{{ path('app_logout') }}">Logout</a>
+    {% if error %}
+        <div class="ui segment">
+            <div class="ui top attached label yellow">Message</div>
+            <p>{{ error.messageKey }}</p>
+        </div>
+    {% endif %}
+
+     <!-- form -->
+    <div class="ui two column grid">
+        <div class="ui column">
+            <div class="ui segment">
+                <div class="ui top attached label">Login form  (adminmaster@email.com:thisIsAPassword)</div>
+
+                <form class="ui form" method="post">
+                    <h1 class="">Please sign in</h1>
+                    <label for="inputEmail">Email</label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
+                    <label for="inputPassword">Password</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control" required>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+                    
+                    <br>
+                    <button class="ui button primary" type="submit">Sign in</button>
+                </form>
             </div>
-        {% endif %}
-    
-        <h1 class="">Please sign in</h1>
-        <label for="inputEmail">Email</label>
-        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-        <label for="inputPassword">Password</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" required>
-    
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
-    
-        <button class="ui button primary" type="submit">Sign in</button>
-    </form>
+        </div>
+
+        <div class="ui column">
+            <div class="ui segment">
+                {% if app.user %}
+
+                    <div class="ui top attached label">Session info</div>
+                    <p>{{ app.user.name }}</p>
+                    <p>{{ app.user.lastName }}</p>
+                    <p>{{ app.user.age }}</p>
+                    <p>{{ app.user.email }}</p>
+                    
+                    <a href="/session_logout" class="button ui red">log out</a>
+                {% else %}
+                    <div class="ui top attached label">Content only available for logged users!</div>
+                    <p>you must be logged in order to see this content</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
 </div>
+
 {% endblock %}

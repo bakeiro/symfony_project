@@ -44,3 +44,11 @@ get_user:
   path: get_user/{user_id}
   controller: App\Controller\CrudController::getUserInfo
 
+# Session
+app_login:
+  path: login
+  controller: App\Controller\UserLoginController::login
+
+app_logout:
+  path: logout
+  controller: App\Controller\UserLoginController::logout
