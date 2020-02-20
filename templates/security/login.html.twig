@@ -6,6 +6,7 @@
 
 <div class="ui container">
     
+    <!-- Error message -->
     {% if error %}
         <div class="ui segment">
             <div class="ui top attached label yellow">Message</div>
@@ -13,7 +14,15 @@
         </div>
     {% endif %}
 
-     <!-- form -->
+    <!-- Success message -->
+    {% if success_message %}
+        <div class="ui segment">
+            <div class="ui top attached label green">Message</div>
+            <p>{{ success_message }}</p>
+        </div>
+    {% endif %}
+
+    <!-- Form -->
     <div class="ui two column grid">
         <div class="ui column">
             <div class="ui segment">
@@ -43,7 +52,7 @@
                     <p>{{ app.user.age }}</p>
                     <p>{{ app.user.email }}</p>
                     
-                    <a href="/session_logout" class="button ui red">log out</a>
+                    <a href="/logout" class="button ui red">log out</a>
                 {% else %}
                     <div class="ui top attached label">Content only available for logged users!</div>
                     <p>you must be logged in order to see this content</p>

@@ -20,7 +20,12 @@ class UserLoginController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        $success_message = "";
+        if(empty($error)) {
+            $success_message = "Login correcto!";
+        }
+
+        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error, "success_message" => $success_message]);
     }
 
     public function logout()
