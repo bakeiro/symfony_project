@@ -23,9 +23,9 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    App\EventListener\FinishRequestListener:
+    App\EventListener\ResponseListener:
         tags:
-            - { name: kernel.event_listener, event: kernel.finish_request }
+            - { name: kernel.event_listener, event: kernel.response }
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
