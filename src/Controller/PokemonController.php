@@ -3,12 +3,16 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-// use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpClient\HttpClient;
 
+/**
+ * Controller for getting the information of a specific pokemon if exists
+ */
 class PokemonController extends AbstractController
 {
+    /**
+     * Outputs the welcome page
+     */
     public function index()
     {
         $pokemon_data = array("name" => "Pokemon info", "description" => "");
@@ -17,9 +21,12 @@ class PokemonController extends AbstractController
         return $this->render('pokemon/pokemon_index.html.twig', $data);
     }
 
-    public function pokemonEndpoint($name)
+    /**
+     * Search in the pokemon API the pokemon name given in the function parameter
+     */
+    public function getPokemonData($pokemon_name)
     {
-        $url_pokemon_api = "https://pokeapi.co/api/v2/pokemon/".$name;
+        $url_pokemon_api = "https://pokeapi.co/api/v2/pokemon/".$pokemon_name;
         
         $client = HttpClient::create();
         $response = $client->request('GET', $url_pokemon_api);
@@ -33,6 +40,15 @@ class PokemonController extends AbstractController
             $output = array("pokemon_information" => $content);
         }
 
+        return $output;
+    }
+
+    /**
+     * Returns the pokemon info
+     */
+    public function pokemonEndpoint($name)
+    {
+        $output = $this->getPokemonData($name);
         return $this->json($output);
     }
 }

@@ -1,0 +1,5 @@
+{
+    "explorer.confirmDragAndDrop": false,
+    "files.autoSave": "afterDelay",
+    "workbench.iconTheme": "vscode-icons"
+}
